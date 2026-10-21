@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no"
+    />
+    <meta name="theme-color" content="#bfe9ff" />
+    <meta
+      name="description"
+      content="Bubble Bunny is a gentle 3D learning garden for little hands. Find colours, shapes, and numbers, pop bubbles, and make the garden sparkle."
+    />
+    <title>Bubble Bunny — colours, shapes and numbers in a 3D garden</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="src/styles.css" />
+  </head>
+  <body>
+    <main id="app">
+      <canvas
+        id="scene"
+        role="img"
+        aria-label="A sunny 3D learning garden with a friendly bunny and floating bubbles that hold colours, shapes, and numbers"
+      ></canvas>
+      <div class="sky-glow" aria-hidden="true"></div>
+      <div class="vignette" aria-hidden="true"></div>
+
+      <header id="hud" aria-hidden="true">
+        <div class="score-pill" id="score-pill">
+          <svg viewBox="0 0 64 64" aria-hidden="true">
+            <path
+              d="M32 5.5 40.4 23l19.1 2.7-13.9 13.4 3.4 19L32 49.5 15 58.1l3.4-19L4.5 25.7 23.6 23Z"
+              fill="#ffd25e"
+              stroke="#fff7dc"
+              stroke-width="3.5"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <span id="score">0</span>
+        </div>
+        <div class="hud-actions">
+          <button id="sound-button" class="icon-button" type="button" aria-label="Turn sound off">
+            <svg class="sound-on" viewBox="0 0 48 48" aria-hidden="true">
+              <path d="M8 19h7l9-7v24l-9-7H8Z" fill="currentColor" />
+              <path
+                d="M29 17c2.6 3.8 2.6 10.2 0 14M34 13.5c4.6 6 4.6 15 0 21"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3.4"
+                stroke-linecap="round"
+              />
+            </svg>
+            <svg class="sound-off" viewBox="0 0 48 48" aria-hidden="true">
+              <path d="M8 19h7l9-7v24l-9-7H8Z" fill="currentColor" />
+              <path
+                d="m29 18 11 12M40 18 29 30"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3.6"
+                stroke-linecap="round"
+              />
+            </svg>
+          </button>
+          <button id="info-button" class="icon-button" type="button" aria-label="About this game">
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+              <circle cx="24" cy="24" r="17" fill="none" stroke="currentColor" stroke-width="3.4" />
+              <path d="M24 21v11" stroke="currentColor" stroke-width="4.2" stroke-linecap="round" />
+              <circle cx="24" cy="14.6" r="2.5" fill="currentColor" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <section id="challenge" class="challenge" role="status" aria-live="polite" aria-hidden="true">
+        <div class="challenge-icon" id="challenge-icon" aria-hidden="true"></div>
+        <div class="challenge-copy">
+          <span class="challenge-kicker">Let's learn</span>
+          <strong id="challenge-text">Tap the red bubble</strong>
+        </div>
+        <div class="challenge-dots" id="challenge-dots" aria-hidden="true">
+          <i></i><i></i><i></i>
+        </div>
+      </section>
+
+      <div id="feedback" class="feedback" role="status" aria-live="polite">
+        <strong id="feedback-text"></strong>
+      </div>
+
+      <div id="celebration" aria-hidden="true">
+        <div class="celebration-burst"></div>
+        <strong id="celebration-number">10</strong>
+        <span>stars!</span>
+      </div>
+
+      <div id="hint-ring" aria-hidden="true"></div>
+      <div id="hint" aria-hidden="true">
+        <svg viewBox="0 0 80 96">
+          <path
+            d="M28 57V19a8 8 0 0 1 16 0v25-4a8 8 0 0 1 16 0v7a8 8 0 0 1 16 0v16c0 15-11 26-26 26h-5c-9 0-17-4-22-11L10 60c-3-4-1-9 4-11 3-1 6 0 8 3Z"
+            fill="#fffdf8"
+            stroke="#e987a8"
+            stroke-width="4"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M44 44V24M44 51v-3M60 47v-3"
+            fill="none"
+            stroke="#f4b6c9"
+            stroke-width="4"
+            stroke-linecap="round"
+          />
+        </svg>
+      </div>
+
+      <section id="intro">
+        <div class="intro-card">
+          <div class="bunny-mark" aria-hidden="true">
+            <svg viewBox="0 0 120 120">
+              <ellipse cx="42" cy="49" rx="13" ry="26" fill="#fff8f1" stroke="#f3b9c9" stroke-width="4" />
+              <ellipse cx="78" cy="49" rx="13" ry="26" fill="#fff8f1" stroke="#f3b9c9" stroke-width="4" />
+              <ellipse cx="42" cy="51" rx="6" ry="15" fill="#ffc7d8" />
+              <ellipse cx="78" cy="51" rx="6" ry="15" fill="#ffc7d8" />
+              <circle cx="60" cy="76" r="32" fill="#fff8f1" stroke="#f3b9c9" stroke-width="4" />
+              <circle cx="47" cy="72" r="5.5" fill="#4d3b4f" />
+              <circle cx="73" cy="72" r="5.5" fill="#4d3b4f" />
+              <circle cx="48.6" cy="70" r="1.8" fill="#fff" />
+              <circle cx="74.6" cy="70" r="1.8" fill="#fff" />
+              <ellipse cx="60" cy="84" rx="6" ry="4.5" fill="#ff8fb0" />
+              <path d="M54 90c2.5 3 9.5 3 12 0" fill="none" stroke="#e987a8" stroke-width="2.6" stroke-linecap="round" />
+              <circle cx="35" cy="82" r="6" fill="#ffc0cf" opacity=".8" />
+              <circle cx="85" cy="82" r="6" fill="#ffc0cf" opacity=".8" />
+              <circle cx="78" cy="38" r="8" fill="#ffd25e" />
+              <circle cx="78" cy="38" r="3.4" fill="#fff4c8" />
+            </svg>
+          </div>
+          <h1><span class="title-a">Bubble</span> <span class="title-b">Bunny</span></h1>
+          <p class="tagline">Pop, count, and learn in a magical garden.</p>
+          <div class="learn-badges" aria-label="Colours, shapes, and numbers">
+            <span class="learn-badge badge-colours"><i></i>Colours</span>
+            <span class="learn-badge badge-shapes">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.4 21 20H3Z" fill="currentColor"/></svg>
+              Shapes
+            </span>
+            <span class="learn-badge badge-numbers">123</span>
+          </div>
+          <button id="play-button" class="play-button" type="button">
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+              <path d="M17 12.5 37 24 17 35.5Z" fill="currentColor" />
+            </svg>
+            <span>Play</span>
+          </button>
+          <button id="intro-sound" class="sound-toggle" type="button" aria-label="Turn sound off">
+            <svg class="sound-on" viewBox="0 0 48 48" aria-hidden="true">
+              <path d="M8 19h7l9-7v24l-9-7H8Z" fill="currentColor" />
+              <path
+                d="M29 17c2.6 3.8 2.6 10.2 0 14M34 13.5c4.6 6 4.6 15 0 21"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3.4"
+                stroke-linecap="round"
+              />
+            </svg>
+            <svg class="sound-off" viewBox="0 0 48 48" aria-hidden="true">
+              <path d="M8 19h7l9-7v24l-9-7H8Z" fill="currentColor" />
+              <path
+                d="m29 18 11 12M40 18 29 30"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3.6"
+                stroke-linecap="round"
+              />
+            </svg>
+            <span class="sound-label">Sound on</span>
+          </button>
+          <p class="grown-up-note">No ads · No purchases · Made for ages 3–5</p>
+        </div>
+      </section>
+
+      <dialog id="info-dialog" aria-labelledby="info-title">
+        <div class="dialog-card">
+          <h2 id="info-title">Made for little hands</h2>
+          <p>
+            <strong>Bubble Bunny</strong> is a gentle learning garden for ages 3–5. There is no timer,
+            no way to lose, and no reading required.
+          </p>
+          <ul>
+            <li>Each bubble holds a colourful shape with a number inside.</li>
+            <li>Follow the spoken prompt to find a colour, shape, or number.</li>
+            <li>Every correct bubble earns a star and a happy cheer.</li>
+            <li>A wrong tap never loses a star — the bunny simply says “try again”.</li>
+            <li>Tap the grass to send the bunny hopping anywhere you like.</li>
+          </ul>
+          <p class="privacy-note">
+            No accounts, ads, purchases, or data collection. Voice prompts use your device's own
+            speech engine and stay on this device.
+          </p>
+          <button id="close-info" class="close-button" type="button">Back to the garden</button>
+        </div>
+      </dialog>
+
+      <noscript>This little garden needs JavaScript to grow.</noscript>
+    </main>
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
